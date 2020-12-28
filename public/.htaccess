@@ -1,0 +1,41 @@
+#
+# Apache configuration file (see httpd.apache.org/docs/current/mod/quickreference.html)
+#
+
+
+# Disable directory listing
+<IfModule mod_autoindex.c>
+	Options -Indexes
+</IfModule>
+
+# Allow Authorization header to be passed to PHP when using FastCGI
+<IfModule mod_fcgid.c>
+	CGIPassAuth on
+</IfModule>
+
+# Enable URL rewrites
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	# RewriteBase /
+
+	# prevents files starting with dot to be viewed by browser
+	RewriteRule /\.|^\. - [F]
+
+	# Forces HTTPS protocol
+	# (not needed on Heroku)
+#	RewriteCond %{HTTPS} off
+#	RewriteRule (.*) https://%{SERVER_NAME}/$1 [R=302,L]
+
+	# Web entry point
+	# (do not rewrite files or directories, send all other requests to the entry point)
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^ index.php [L]
+</IfModule>
+
+# enable gzip compression
+<IfModule mod_deflate.c>
+	<IfModule mod_filter.c>
+		AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript text/javascript application/javascript application/json
+	</IfModule>
+</IfModule>

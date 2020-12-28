@@ -1,0 +1,30 @@
+{
+  "name": "Beeps",
+  "description": "Slim API example with custom authorization, automatic wiring and other goodies.",
+  "repository": "https://github.com/dakujem/beeps",
+  "success_url": "/",
+  "scripts": {
+    "postdeploy": "composer install --prefer-dist --no-interaction && composer migration:run && php vendor/robmorgan/phinx/bin/phinx seed:run --configuration config/phinx.php && composer install --prefer-dist --no-interaction --optimize-autoloader --no-dev"
+  },
+  "env": {
+    "DEVELOPMENT": {
+      "description": "Development mode turns on debugging info and stuff. This is only intended for prototype demo.",
+      "value": "0"
+    },
+    "API_SECRET": {
+      "description": "A secret key for verifying the integrity of signed tokens.",
+      "generator": "secret"
+    }
+  },
+  "addons": [
+    {
+      "plan": "jawsdb-maria:kitefin",
+      "as": "DATABASE"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    }
+  ]
+}
