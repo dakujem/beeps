@@ -87,60 +87,66 @@ export default {
     </figure>
     <div class="media-content">
 
-      <form v-if="!user" action="#" @submit.prevent="submitForm()" novalidate>
-        <div class="field">
-          <p class="control has-icons-left has-icons-right">
-            <input v-model="form.username" :class="['input', usernameError ? 'is-danger':null]" type="email" placeholder="Email" :disabled="sending">
-            <span class="icon is-small is-left">
-              <i class="fas fa-envelope"></i>
-            </span>
-            <span v-if="usernameOkay" class="icon is-small is-right">
-              <i class="fas fa-check"></i>
-            </span>
-            <span v-if="usernameError" class="icon is-small is-right is-danger">
-              <i class="fas fa-times"></i>
-            </span>
-          </p>
-          <p v-if="usernameError" class="help is-danger">{{ form.errors.get('username') }}</p>
-        </div>
-        <div class="field">
-          <p class="control has-icons-left has-icons-right">
-            <input v-model="form.password" class="input" type="password" placeholder="Password" :disabled="sending">
-            <span class="icon is-small is-left">
-              <i class="fas fa-lock"></i>
-            </span>
-            <span v-if="passwordOkay" class="icon is-small is-right">
-              <i class="fas fa-check"></i>
-            </span>
-            <span v-if="passwordError" class="icon is-small is-right is-danger">
-              <i class="fas fa-times"></i>
-            </span>
-          </p>
-          <p v-if="passwordError" class="help is-danger">{{ form.errors.get('password') }}</p>
-        </div>
+      <div class="columns">
+        <div class="column is-half-desktop is-offset-one-quarter-desktop">
 
-        <nav class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <button :class="['button', 'is-primary',]" :disabled="sending">
-                <template v-if="!sending">
-                  Log in
-                </template>
-                <template v-else>
-                  Sending...
-                </template>
-              </button>
+          <form v-if="!user" action="#" @submit.prevent="submitForm()" novalidate>
+            <div class="field">
+              <p class="control has-icons-left has-icons-right">
+                <input v-model="form.username" :class="['input', usernameError ? 'is-danger':null]" type="email" placeholder="Email" :disabled="sending">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <span v-if="usernameOkay" class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span v-if="usernameError" class="icon is-small is-right is-danger">
+                  <i class="fas fa-times"></i>
+                </span>
+              </p>
+              <p v-if="usernameError" class="help is-danger">{{ form.errors.get('username') }}</p>
             </div>
-          </div>
-          <div class="level-right">
-            <div class="level-item">
-              <span class="has-text-grey-light">
-                Enter any valid e-mail and any non-empty password.
-              </span>
+            <div class="field">
+              <p class="control has-icons-left has-icons-right">
+                <input v-model="form.password" class="input" type="password" placeholder="Password" :disabled="sending">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <span v-if="passwordOkay" class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span v-if="passwordError" class="icon is-small is-right is-danger">
+                  <i class="fas fa-times"></i>
+                </span>
+              </p>
+              <p v-if="passwordError" class="help is-danger">{{ form.errors.get('password') }}</p>
             </div>
-          </div>
-        </nav>
-      </form>
+
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <button :class="['button', 'is-primary','mr-4']" :disabled="sending">
+                    <template v-if="!sending">
+                      Log in
+                    </template>
+                    <template v-else>
+                      Sending...
+                    </template>
+                  </button>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <span class="has-text-grey-light is-size-7">
+                    Enter any valid e-mail and any non-empty password.
+                  </span>
+                </div>
+              </div>
+            </nav>
+          </form>
+
+        </div>
+      </div>
 
       <form v-if="user" action="#" @submit.prevent="$emit('logout')" class="has-text-right">
         <button :class="['button', 'is-danger','is-small']" title="log out / sign out">

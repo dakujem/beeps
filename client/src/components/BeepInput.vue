@@ -103,7 +103,14 @@ export default {
         <nav class="level">
           <div class="level-left">
             <div class="level-item">
-              <a class="button is-primary is-large mr-4" title="Submit the post." @click="submitForm">Beep</a>
+              <button class="button is-primary is-large mr-4" title="Submit the post." @click="submitForm" :disabled="sending">
+                <template v-if="!sending">
+                  Beep
+                </template>
+                <template v-else>
+                  Beeping...
+                </template>
+              </button>
               <span class="has-text-grey-light">
                 as {{ user }}
               </span>
