@@ -9,7 +9,10 @@ export default {
   <div>
 
     <h1 class="title">Beeps.</h1>
-    <div class="has-text-right">
+    <div class="links has-text-right is-size-4">
+      <a class="" href="https://dev.to/dakujem" title="The author's blog">
+        <i class="fab fa-dev"></i>
+      </a>
       <a class="" href="https://github.com/dakujem/beeps" title="GitHub: dakujem/beeps (sources)">
         <i class="fab fa-github"></i>
       </a>
@@ -39,5 +42,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-
+.links > a:not(:last-child) {
+  margin-right: 1rem
+}
 </style>

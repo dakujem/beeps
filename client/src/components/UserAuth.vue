@@ -82,7 +82,9 @@ export default {
             v-if="userId"
             :id="userId"
         ></avatar-placeholder>
+        <!--
         <i v-if="!userId" class="far fa-user is-size-1"></i>
+        -->
       </p>
     </figure>
     <div class="media-content">
