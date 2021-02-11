@@ -27,46 +27,34 @@ $ composer test
 ```
 
 
----
+
+## Tech
+
+Main stuff:
+- [Slim](https://www.slimframework.com) (v4)
+- [Vue](https://vuejs.org)
+- [Bulma](https://dibiphp.com/en/)
+- [Auth Middleware](https://github.com/dakujem/auth-middleware)
+- [Cumulus](https://github.com/dakujem/cumulus)
+- [Wire Genie](https://github.com/dakujem/wire-genie)
+- [dibi](https://dibiphp.com/en/)
+- [Avatars](https://avatars.dicebear.com)
 
 
-## todos
+## Why
 
-Public:
-- [x] read all public "beeps" `GET /beeps`
-- [x] authenticate `POST /session`
-
-Authenticated:
-- [x] read all "beeps"  `GET /beeps` (same endpoint)
-- [ ] add a "beep" `POST /beeps`
-- ??? remove/update owned "beep" `DELETE/PATCH /beeps/{id}`
-
-Vue app.
-- https://avatars.dicebear.com
-
-**MENU**
-```
-home/posts    +add     admin                    login/logout/current user
- |              |       |                         |
- |              |       |                         +- show login button;
- |              |       |                            show logout button and the current user when authenticated
- |              |       |
- |              |       +- list of accounts
- |              |
- |              +- add post form
- |
- +- stream of posts
-```
+🚧 The blog post is being prepared...
 
 
-Slim package:
-- [x] slim factory
-- [x] auth mw
+## Todos
+
 - [ ] wire genie DI bridge
-- [x] cumulus
+- [ ] remove/update owned "beeps" `DELETE/PATCH /beeps/{id}`
 
 
----
+## Contributing
+
+Sure, I'll accept PRs and issues.
 
 
 <!-- REFS -->
