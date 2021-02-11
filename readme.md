@@ -27,6 +27,11 @@ $ composer test
 ```
 
 
+Deploy to heroku:
+```
+$ git push heroku trunk:main --force
+```
+
 
 ## Tech
 
