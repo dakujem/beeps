@@ -47,7 +47,7 @@ final class SessionController
             //   to see if you can authenticate this user, given the credentials.
             //
             $usernameCheck = filter_var($username, FILTER_VALIDATE_EMAIL);
-            $passwordCheck = trim($password) !== '';
+            $passwordCheck = trim($password ?? '') !== '';
             $authenticated = $usernameCheck && $passwordCheck;
 
             if ($authenticated) {
