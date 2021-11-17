@@ -11,6 +11,7 @@ use App\Tools\Serializer;
 use Carbon\CarbonImmutable;
 use Dakujem\Middleware\TokenManipulators as Man;
 use Dibi\Connection;
+use Dibi\Expression;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -30,7 +31,7 @@ final class StreamController
     public function read(Request $request, Response $response): Response
     {
         // Normally, this check would be enclosed in an appropriate authorization mechanism, like "gates" or "acl".
-        $authenticated = $this->isAuthenticated($request);
+        $authenticated = $this->getCurrentlyAuthenticatedUserEmail($request);
 
         // You would also have something like a-call-to-your-model thing here...
         $beeps = $this->db->query(
@@ -38,7 +39,8 @@ final class StreamController
             'FROM `beeps` b',
             'JOIN `accounts` a ON b.`account` = a.`id`',
             'WHERE b.`published`',
-            '%if', !$authenticated, 'AND b.`public`', '%end',
+            'AND ( b.`public` ? )',
+            new Expression('%if', $authenticated !== null, 'OR a.`email` = ?', $authenticated, '%end'),
             'ORDER BY b.`created` DESC'
         )->fetchAll();
 
@@ -107,12 +109,6 @@ final class StreamController
     {
         $token = $request->getAttribute(Man::TOKEN_ATTRIBUTE_NAME);
         return $token instanceof Token ? $token->getSubject() : null;
-    }
-
-    private function isAuthenticated(Request $request): bool
-    {
-        $sub = $this->getCurrentlyAuthenticatedUserEmail($request);
-        return $sub !== null;
     }
 
     private function isAuthorOf(Request $request, $beep): bool
