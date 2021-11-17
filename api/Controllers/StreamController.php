@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /**
  * "Beeps" stream.
  *
- * Note: I'm intentionally omitting any model-layer encapsulation. For now, it is outside of the scope of this demo.
+ * Note: I'm intentionally omitting any model-layer encapsulation. For now, it is out of the scope of this demo.
  */
 final class StreamController
 {
@@ -29,7 +29,7 @@ final class StreamController
 
     public function read(Request $request, Response $response): Response
     {
-        // Normally, this check would be enclosed in an appropriate mechanism, like "gates" or "acl".
+        // Normally, this check would be enclosed in an appropriate authorization mechanism, like "gates" or "acl".
         $authenticated = $this->isAuthenticated($request);
 
         // You would also have something like a-call-to-your-model thing here...
@@ -67,7 +67,7 @@ final class StreamController
         $public = RequestHelper::toBoolean(RequestHelper::param($request, 'public'));
         $author = $this->getCurrentlyAuthenticatedUserEmail($request);
 
-        // fetch author an insert if does not exist
+        // Fetch the author or insert a new one if not present.
         $authorId = $this->db->query(
             'SELECT `id`',
             'FROM `accounts`',
@@ -82,7 +82,7 @@ final class StreamController
             $authorId = $this->db->getInsertId();
         }
 
-        if ($text=== null || trim($text) === '') {
+        if ($text === null || trim($text) === '') {
             return ResponseHelper::jsonErrors($response, [
                 'text' => 'The post body must not be empty.',
             ]);
