@@ -22,9 +22,9 @@ final class DependencyConfigurator
 {
     function decorate(Sleeve $container): void
     {
-#		+-------------------------------------------------------------------+
-#		|    System services                                                |
-#		+-------------------------------------------------------------------+
+#       +-------------------------------------------------------------------+
+#       |    System services                                                |
+#       +-------------------------------------------------------------------+
 
         // PSR-17 response factory.
         $container[ResponseFactoryInterface::class] = fn() => AppFactory::determineResponseFactory();
@@ -33,16 +33,16 @@ final class DependencyConfigurator
         $container[JwtService::class] = fn() => new JwtService($container->get('settings')['secret']);
 
 
-#		+-------------------------------------------------------------------+
-#		|    Connections                                                    |
-#		+-------------------------------------------------------------------+
+#       +-------------------------------------------------------------------+
+#       |    Connections                                                    |
+#       +-------------------------------------------------------------------+
 
         $container[Connection::class] = fn() => new Connection($container->get('settings')['database']);
 
 
-#		+-------------------------------------------------------------------+
-#		|    Controllers                                                    |
-#		+-------------------------------------------------------------------+
+#       +-------------------------------------------------------------------+
+#       |    Controllers                                                    |
+#       +-------------------------------------------------------------------+
 
         // Note: Autowiring.
         $g = new Genie($container);
@@ -52,9 +52,9 @@ final class DependencyConfigurator
         $container[StreamController::class] = fn() => $g->construct(StreamController::class);
 
 
-#		+-------------------------------------------------------------------+
-#		|    API services                                                   |
-#		+-------------------------------------------------------------------+
+#       +-------------------------------------------------------------------+
+#       |    API services                                                   |
+#       +-------------------------------------------------------------------+
 
         // `TokenMiddleware` factory.
         $container[AuthMiddlewareFactory::class] = function (Container $container) {
