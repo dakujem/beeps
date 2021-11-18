@@ -22,6 +22,8 @@ final class DependencyConfigurator
 {
     function decorate(Sleeve $container): void
     {
+        $settings = $container->get('settings');
+
 #       +-------------------------------------------------------------------+
 #       |    System services                                                |
 #       +-------------------------------------------------------------------+
@@ -30,14 +32,14 @@ final class DependencyConfigurator
         $container[ResponseFactoryInterface::class] = fn() => AppFactory::determineResponseFactory();
 
         // JWT encoding/decoding service
-        $container[JwtService::class] = fn() => new JwtService($container->get('settings')['secret']);
+        $container[JwtService::class] = fn() => new JwtService($settings['secret']);
 
 
 #       +-------------------------------------------------------------------+
 #       |    Connections                                                    |
 #       +-------------------------------------------------------------------+
 
-        $container[Connection::class] = fn() => new Connection($container->get('settings')['database']);
+        $container[Connection::class] = fn() => new Connection($settings['database']);
 
 
 #       +-------------------------------------------------------------------+
@@ -47,7 +49,10 @@ final class DependencyConfigurator
         // Note: Autowiring.
         $g = new Genie($container);
 
-        $container[SessionController::class] = fn() => $g->construct(SessionController::class);
+        $container[SessionController::class] = fn() => $g->construct(
+            SessionController::class,
+            $settings['auth']['list'] ?? [],
+        );
         $container[AccountController::class] = fn() => $g->construct(AccountController::class);
         $container[StreamController::class] = fn() => $g->construct(StreamController::class);
 
@@ -57,8 +62,8 @@ final class DependencyConfigurator
 #       +-------------------------------------------------------------------+
 
         // `TokenMiddleware` factory.
-        $container[AuthMiddlewareFactory::class] = function (Container $container) {
-            $secret = $container->get('settings')['secret'];
+        $container[AuthMiddlewareFactory::class] = function (Container $container) use ($settings) {
+            $secret = $settings['secret'];
             // We configure AuthMiddlewareFactory by passing it:
             // 1/ a factory that returns a "decoder" callable for the `TokenMiddleware`, and
             // 2/ a Response factory

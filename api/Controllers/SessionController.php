@@ -20,8 +20,11 @@ final class SessionController
 {
     use InvokableController;
 
-    public function __construct(private JwtService $jwt)
-    {
+    public function __construct(
+        private JwtService $jwt,
+        // Associative array of username-password pairs.
+        private array $authList = [],
+    ) {
     }
 
     /**
@@ -34,7 +37,7 @@ final class SessionController
     public function create(Request $request, Response $response): Response
     {
         $username = RequestHelper::param($request, 'username');
-        $password = RequestHelper::param($request, 'password');
+        $password = trim(RequestHelper::param($request, 'password') ?? '');
 
         $usernameCheck = $passwordCheck = null;
         try {
@@ -47,7 +50,19 @@ final class SessionController
             //   to see if you can authenticate this user, given the credentials.
             //
             $usernameCheck = filter_var($username, FILTER_VALIDATE_EMAIL);
-            $passwordCheck = trim($password ?? '') !== '';
+            $passwordCheck = $password !== '';
+
+            //
+            // Additionally, for defined users, check for a real password match.
+            //
+            //   This is a makeshift authentication.
+            //   Normally, you want to use `password_hash` and `password_verify` functions here.
+            //
+            if ($this->authList[$username] ?? null) {
+                $passwordCheck = $passwordCheck && $password === $this->authList[$username];
+            }
+
+            // Both checks must pass.
             $authenticated = $usernameCheck && $passwordCheck;
 
             if ($authenticated) {
