@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
@@ -24,8 +25,10 @@ final class BuildDatabaseStructure extends AbstractMigration
             $this->table('accounts')->drop()->save();
         }
 
+        $tableOptions = ['collation' => 'utf8mb4_unicode_ci'];
+
         $this
-            ->table('accounts')
+            ->table('accounts', $tableOptions)
             ->addColumn('email', 'string', ['limit' => 255,])
             ->addColumn('created', 'datetime')
             ->addIndex('email', [
@@ -35,7 +38,7 @@ final class BuildDatabaseStructure extends AbstractMigration
             ->create();
 
         $this
-            ->table('beeps')
+            ->table('beeps', $tableOptions)
             ->addColumn('account', 'integer')
             ->addColumn('public', 'boolean', ['default' => false,])
             ->addColumn('published', 'datetime', ['null' => true, 'default' => null,])
