@@ -95,7 +95,7 @@ export default {
             <input type="checkbox" id="checkbox" v-model="form.public" class="checkbox mr-4">
             <label for="checkbox" class="checkbox">
               <span :class="{strike: !form.public}">Make it public.</span>
-              <span class="has-text-grey-light ml-4" v-if="!form.public">We'll keep it for authenticated users only.</span>
+              <span class="has-text-grey-light ml-4" v-if="!form.public">We'll keep it private to this user only.</span>
             </label>
           </p>
         </div>
