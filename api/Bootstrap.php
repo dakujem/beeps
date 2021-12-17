@@ -70,7 +70,7 @@ final class Bootstrap
             'settings' => $settings,
             // A reference to self.
             Container::class => fn(Container $c) => $c,
-            // The App instance.
+            // The App instance factory.
             App::class => $appBuilder,
         ]);
 

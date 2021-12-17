@@ -25,7 +25,7 @@ class Token implements JsonSerializable
         return $this->getSubject() == 1;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): object
     {
         return $this->payload;
     }
