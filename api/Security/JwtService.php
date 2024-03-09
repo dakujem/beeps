@@ -6,12 +6,16 @@ namespace App\Security;
 
 use Carbon\CarbonImmutable;
 use Firebase\JWT\JWT as Lib;
+use Firebase\JWT\Key;
 use LogicException;
 
 final class JwtService
 {
-    function __construct(private string $secret, private string $algo = 'HS256', private int $ttl = 60)
-    {
+    function __construct(
+        private string $secret,
+        private string $algo = 'HS256',
+        private int $ttl = 3600,
+    ) {
         if (strlen($secret) < 20) {
             throw new LogicException('API secret too short.');
         }
@@ -24,7 +28,7 @@ final class JwtService
 
     function decode(string $token): object
     {
-        return Lib::decode($token, $this->secret, [$this->algo]);
+        return Lib::decode($token, new Key($this->secret, $this->algo));
     }
 
     /**
@@ -40,7 +44,7 @@ final class JwtService
     function generate(array $claims): string
     {
         $iat = CarbonImmutable::now(); // "issued at" / token creation time
-        $exp = $iat->addMinutes($this->ttl); // token expires at
+        $exp = $iat->addSeconds($this->ttl); // token expires at
         $defaults = [
             'exp' => $exp->unix(),
             'iat' => $iat->unix(),

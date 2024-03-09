@@ -10,6 +10,7 @@ use App\Controllers\StreamController;
 use App\Security\JwtService;
 use App\Security\Token;
 use Dakujem\Middleware\Factory\AuthFactory as AuthMiddlewareFactory;
+use Dakujem\Middleware\Factory\AuthWizard;
 use Dakujem\Sleeve;
 use Dakujem\Wire\Genie;
 use Dibi\Connection;
@@ -32,7 +33,10 @@ final class DependencyConfigurator
         $container[ResponseFactoryInterface::class] = fn() => AppFactory::determineResponseFactory();
 
         // JWT encoding/decoding service
-        $container[JwtService::class] = fn() => new JwtService($settings['secret']);
+        $container[JwtService::class] = fn() => new JwtService(
+            secret: $settings['tokens']['secret'],
+            algo: $settings['tokens']['algo'],
+        );
 
 
 #       +-------------------------------------------------------------------+
@@ -63,12 +67,13 @@ final class DependencyConfigurator
 
         // `TokenMiddleware` factory.
         $container[AuthMiddlewareFactory::class] = function (Container $container) use ($settings) {
-            $secret = $settings['secret'];
+            $secret = $settings['tokens']['secret'];
+            $algo = $settings['tokens']['algo'];
             // We configure AuthMiddlewareFactory by passing it:
             // 1/ a factory that returns a "decoder" callable for the `TokenMiddleware`, and
             // 2/ a Response factory
             return new AuthMiddlewareFactory(
-                function () use ($secret): callable {
+                function () use ($secret, $algo): callable {
                     //
                     // NOTE
                     //
@@ -78,10 +83,13 @@ final class DependencyConfigurator
                     //   If you do not need a custom implementation of `Token` object,
                     //   it is enough to just pass the default decoder factory to the AuthMiddlewareFactory
                     //   instead of this one, like this:
-                    //   AuthMiddlewareFactory::defaultDecoderFactory($secret)
+                    //   AuthWizard::defaultDecoder($secret)
                     //
-                    return function (?string $rawToken, ?Logger $logger) use ($secret): ?Token {
-                        $defaultDecoder = AuthMiddlewareFactory::defaultDecoderFactory($secret)();
+                    return function (?string $rawToken, ?Logger $logger) use ($secret, $algo): ?Token {
+                        $defaultDecoder = AuthWizard::defaultDecoder(
+                            secret: $secret,
+                            algo: $algo,
+                        );
                         $payload = $defaultDecoder($rawToken, $logger);
                         if ($payload !== null) {
                             return new Token($payload);

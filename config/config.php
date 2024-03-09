@@ -29,7 +29,10 @@ return [
 //  |  API
 //  +-----------------------------------------------------------------+
 //
-    'secret' => Env::string('API_SECRET', 'I should never have committed this, screw me!'),
+    'tokens' => [
+        'secret' => Env::string('API_SECRET', 'I should never have committed this, screw me!'),
+        'algo' => 'HS256',
+    ],
 
 //
 //  +-----------------------------------------------------------------+
