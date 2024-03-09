@@ -25,6 +25,13 @@ Test the API:
 $ composer test
 ```
 
+Build the client:
+```
+$ yarn build
+```
+
+Replace relevant files in the `/public` folder with the fresh build, then commit the changes.
+
 Deploy to heroku:
 ```
 $ git push heroku trunk:main --force
