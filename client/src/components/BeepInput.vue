@@ -19,7 +19,7 @@ export default {
     return {
       form: new Form({
         text: null,
-        public: true,
+        public: false,
       }),
       sending: false,
     }
