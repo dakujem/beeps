@@ -139,7 +139,10 @@ export default {
               </div>
               <div class="level-right">
                 <div class="level-item">
-                  <span class="has-text-grey-light is-size-7">
+                  <span class="has-text-primary is-size-4 mr-2">
+                    🛈
+                  </span>
+                  <span class="has-text-grey is-size-7">
                     Enter any valid e-mail and any non-empty password.
                   </span>
                 </div>

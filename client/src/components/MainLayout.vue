@@ -6,9 +6,9 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="pt-4">
 
-    <h1 class="title">Beeps.</h1>
+    <h1 class="title mb-0">🦚 beeps.</h1>
     <div class="links has-text-right is-size-4">
       <a class="" href="https://dev.to/dakujem" title="The author's blog">
         <i class="fab fa-dev"></i>
