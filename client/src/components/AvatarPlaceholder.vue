@@ -15,7 +15,7 @@ export default {
     },
     variant: {
       type: String,
-      default: 'gridy',
+      default: 'bottts',
     },
   },
   methods: {
@@ -26,5 +26,5 @@ export default {
 }
 </script>
 <template>
-  <img :src="`https://avatars.dicebear.com/api/${variant}/${md5(id)}.svg`" :alt="`Avatar for ${id}.`">
+  <img :src="`https://api.dicebear.com/7.x/${variant}/svg?seed=${md5(id)}`" :alt="`Avatar for ${id}.`">
 </template>
